@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2013 Intel Corporation. All rights reserved.
+# Copyright (c) 2013, 2014 Intel Corporation. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 # pylint: disable=F0401
@@ -584,7 +584,7 @@ def main(argv):
           'activity-element.html#screen')
   group.add_option('--orientation', help=info)
   info = ('The list of permissions to be used by web application. For example, '
-          '--permissions=\'geolocation:webgl\'')
+          '--permissions=geolocation:webgl')
   group.add_option('--permissions', help=info)
   parser.add_option_group(group)
   group = optparse.OptionGroup(parser, 'Keystore Options',

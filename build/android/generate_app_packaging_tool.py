@@ -116,7 +116,8 @@ def PrepareFromXwalk(src_dir, target_dir):
     (os.path.join(tools_src_dir, 'customize.py'), target_dir),
     (os.path.join(tools_src_dir, 'make_apk.py'), target_dir),
     (os.path.join(tools_src_dir, 'manifest_json_parser.py'), target_dir),
-    (os.path.join(tools_src_dir, 'parse_xpk.py'), target_dir)
+    (os.path.join(tools_src_dir, 'parse_xpk.py'), target_dir),
+    (os.path.join(tools_src_dir, 'handle_permissions.py'), target_dir)
   ]
 
   for index in range(len(source_target_list)):

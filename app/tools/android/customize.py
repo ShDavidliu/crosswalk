@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2013 Intel Corporation. All rights reserved.
+# Copyright (c) 2013, 2014 Intel Corporation. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
@@ -10,6 +10,9 @@ import os
 import re
 import shutil
 import sys
+
+from handle_permissions import AddElementAttribute
+from handle_permissions import HandlePermissions
 from xml.dom import minidom
 
 def ReplaceInvalidChars(value, mode='default'):
@@ -60,13 +63,6 @@ def EditElementAttribute(doc, node, name, value):
     item.attributes[name].value = value
   else:
     item.setAttribute(name, value)
-
-
-def AddElementAttribute(doc, node, name, value):
-  root = doc.documentElement
-  item = doc.createElement(node)
-  item.setAttribute(name, value)
-  root.appendChild(item)
 
 
 def AddElementAttributeAndText(doc, node, name, value, data):
@@ -123,12 +119,7 @@ def CustomizeXML(options, sanitized_name):
   if options.description:
     EditElementAttribute(xmldoc, 'manifest', 'android:description',
                          "@string/description")
-  # TODO: Update the permission list after the permission
-  # specification is defined.
-  if options.permissions:
-    if 'geolocation' in options.permissions:
-      AddElementAttribute(xmldoc, 'uses-permission', 'android:name',
-                          'android.permission.LOCATION_HARDWARE')
+  HandlePermissions(options, xmldoc)
   EditElementAttribute(xmldoc, 'application', 'android:label', options.name)
   activity_name = options.package + '.' + sanitized_name + 'Activity'
   EditElementAttribute(xmldoc, 'activity', 'android:name', activity_name)
