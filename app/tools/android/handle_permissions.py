@@ -35,7 +35,9 @@ permission_mapping_table = {
                  'android.permission.RECEIVE_SMS',
                  'android.permission.SEND_SMS',
                  'android.permission.WRITE_SMS'],
+  'devicecapabilities' : [],
   'fullscreen' : [],
+  'rawsockets' : [],
   'presentation' : []
 }
 
