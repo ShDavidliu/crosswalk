@@ -477,6 +477,8 @@ def Execution(options, sanitized_name):
   RunCommand(cmd)
 
   src_file = os.path.join('out', sanitized_name + '.apk')
+  if options.app_version:
+    options.name += ('_' + options.app_version)
   if options.mode == 'shared':
     dst_file = '%s.apk' % options.name
   elif options.mode == 'embedded':
@@ -489,18 +491,30 @@ def Execution(options, sanitized_name):
 
 def MakeApk(options, sanitized_name):
   Customize(options)
+  package_name_version = sanitized_name
+  if options.app_version:
+    package_name_version += ('_' + options.app_version)
   if options.mode == 'shared':
     Execution(options, sanitized_name)
     print ('The cross platform APK of the web application was '
            'generated successfully at %s.apk, based on the shared '
            'Crosswalk library.'
-           % sanitized_name)
+           % package_name_version)
   elif options.mode == 'embedded':
     if options.arch:
       Execution(options, sanitized_name)
-      print ('The Crosswalk embedded APK of web application "%s" for '
-             'platform %s was generated successfully at %s_%s.apk.'
-             % (sanitized_name, options.arch, sanitized_name, options.arch))
+      if options.app_version:
+        print ('The Crosswalk embedded APK of web application "%s" '
+               'version "%s" for platform %s was generated successfully '
+               'at %s_%s.apk.'
+               % (sanitized_name, options.app_version, options.arch,
+                package_name_version, options.arch))
+      else:
+        print ('The Crosswalk embedded APK of web application "%s" '
+               'for platform %s was generated successfully '
+               'at %s_%s.apk.'
+               % (sanitized_name, options.arch,
+                  package_name_version, options.arch))
     else:
       # If the arch option is unspecified, all of available platform APKs
       # will be generated.
@@ -518,16 +532,29 @@ def MakeApk(options, sanitized_name):
           elif arch.find('arm') != -1:
             options.arch = 'arm'
           platform_str += options.arch
-          apk_str += '%s_%s.apk' % (sanitized_name, options.arch)
+          apk_str += '%s_%s.apk' % (package_name_version, options.arch)
           Execution(options, sanitized_name)
       if apk_str.find('and') != -1:
-        print ('The Crosswalk embedded APKs of web application "%s" for '
-               'platform %s were generated successfully at %s.'
-               % (sanitized_name, platform_str, apk_str))
+        if options.app_version:
+          print ('The Crosswalk embedded APKs of web application "%s" '
+                 'version "%s" for platform %s were generated successfully '
+                 'at %s.'
+                 % (sanitized_name, options.app_version,
+                    platform_str, apk_str))
+        else:
+          print ('The Crosswalk embedded APKs of web application "%s" for '
+                 'platform %s were generated successfully at %s.'
+                 % (sanitized_name, platform_str, apk_str))
       else:
-        print ('The Crosswalk embedded APK of web application "%s" for '
-               'platform %s was generated successfully at %s.'
-               % (sanitized_name, platform_str, apk_str))
+        if options.app_version:
+          print ('The Crosswalk embedded APK of web application "%s" '
+                 'version "%s" for platform %s was generated successfully '
+                 'at %s.'
+                 % (sanitized_name, options.app_version, platform_str, apk_str))
+        else:
+          print ('The Crosswalk embedded APK of web application "%s" for '
+                 'platform %s was generated successfully at %s.'
+                 % (sanitized_name, platform_str, apk_str))
   else:
     print('Unknown mode for packaging the application. Abort!')
     sys.exit(11)
