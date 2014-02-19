@@ -191,7 +191,7 @@ def Customize(options):
     package = '--package=%s' % options.package
   name = '--name=AppTemplate'
   if options.name:
-    name = '--name=%s' % options.name
+    name = '--name=%s%s%s' % ("'", options.name, "'")
   app_version = '--app-version=1.0.0'
   if options.app_version:
     app_version = '--app-version=%s' % options.app_version
