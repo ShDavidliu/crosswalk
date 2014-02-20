@@ -191,7 +191,7 @@ def Customize(options):
     package = '--package=%s' % options.package
   name = '--name=AppTemplate'
   if options.name:
-    name = '--name=%s%s%s' % ("'", options.name, "'")
+    name = '--name=%s' % options.name
   app_version = '--app-version=1.0.0'
   if options.app_version:
     app_version = '--app-version=%s' % options.app_version
@@ -720,7 +720,7 @@ def main(argv):
 
   options.name = ReplaceInvalidChars(options.name, 'apkname')
   options.package = ReplaceInvalidChars(options.package)
-  sanitized_name = ReplaceInvalidChars(options.name)
+  sanitized_name = ReplaceInvalidChars(options.name, 'apkname')
 
   try:
     compress = compress_js_and_css.CompressJsAndCss(options.app_root)

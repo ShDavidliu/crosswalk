@@ -156,11 +156,11 @@ class TestMakeApk(unittest.TestCase):
     out = RunCommand(cmd)
     self.assertTrue(out.find('The APK name is required!') != -1)
     Clean('Example', '1.0.0')
-    cmd = ['python', 'make_apk.py', '--name=An Example', '--app-version=1.0.0',
+    cmd = ['python', 'make_apk.py', '--name="Test Example"', '--app-version=1.0.0',
            '--package=org.xwalk.example', self._mode]
     out = RunCommand(cmd)
     self.assertTrue(out.find('The APK name is required!') == -1)
-    Clean('An Example', '1.0.0')
+    Clean('Test Example', '1.0.0')
     # The following invalid chars verification is too heavy for embedded mode,
     # and the result of verification should be the same between shared mode
     # and embedded mode. So only do the verification in the shared mode.
